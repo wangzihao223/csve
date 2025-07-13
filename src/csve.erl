@@ -23,11 +23,28 @@ init() ->
     {error, Reason} ->
       exit({load_nif_failed, Reason})
   end.
-
--spec csv_new() -> csv_parser().
+-doc """
+  创建一个csv解析器
+  example
+  ```erlang
+  {ok, Parse} = csve:csv_new().
+  ```
+""".
+-spec csv_new() -> {ok, csv_parser()}.
 csv_new() ->
   erlang:nif_error(undef).
 
+-doc """
+  解析一个csv 二进制chunk, 以lists形式返回数据
+  example
+  ```erlang
+  Bin = <<"id, name, addr\n">>,
+  R = csve:csv_parse_chunk(Parse, Bin)
+  ```
+  ```bash
+  {ok,[[<<"id">>,<<"name">>,<<"addr">>]]}
+  ```
+""".
 -spec csv_parse_chunk(Handle, Bin) -> {ok, csv_rows()}
   when Handle :: csv_parser(),
        Bin :: binary().
